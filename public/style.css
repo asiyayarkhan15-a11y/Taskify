@@ -210,6 +210,29 @@ h1, h2, h3, .hand { font-family: var(--hand); font-weight: 700; letter-spacing: 
 .toolbar select:hover { border-color: var(--faint); }
 .toolbar select:focus { border-color: var(--lav-d); }
 
+/* ---- Custom dropdown (so options use the handwritten font) ---- */
+.dd { position: relative; display: inline-block; }
+.dd > select { display: none; }
+.dd-btn { display: inline-flex; align-items: center; gap: 8px; width: 100%; height: 40px; font-family: inherit; font-size: 1rem; color: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 0 12px; background: #fff; cursor: pointer; }
+.dd-btn:hover { border-color: var(--faint); }
+.dd.open .dd-btn { border-color: var(--lav-d); }
+.dd-label { flex: 1; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dd-chev { width: 15px; height: 15px; color: var(--faint); flex-shrink: 0; display: grid; place-items: center; }
+.dd-chev svg { width: 100%; height: 100%; }
+.dd.open .dd-chev { transform: rotate(180deg); }
+.dd-menu { display: none; position: absolute; z-index: 40; top: calc(100% + 4px); left: 0; min-width: 100%; background: #fff; border: 1px solid var(--border-strong, var(--line)); border-radius: 12px; box-shadow: var(--shadow-md); padding: 6px; flex-direction: column; gap: 2px; max-height: 260px; overflow: auto; }
+.dd.open .dd-menu { display: flex; }
+.dd-opt { text-align: left; font-family: inherit; font-size: 1.05rem; color: var(--ink); padding: 8px 12px; border-radius: 8px; background: none; cursor: pointer; white-space: nowrap; }
+.dd-opt:hover { background: var(--paper); }
+.dd-opt.selected { background: var(--lav); color: var(--purple-i); }
+.add-row2 .dd, .add-row2 .dd .dd-btn { height: 38px; }
+.add-row2 .dd-btn { font-size: 0.98rem; }
+.add-row2 .dd[data-for="add-priority"] { width: 128px; }
+.add-row2 .dd[data-for="add-category"] { width: 150px; }
+.toolbar .dd[data-for="filter-category"] { width: 165px; }
+.toolbar .dd[data-for="filter-priority"] { width: 145px; }
+.toolbar .dd[data-for="sort-by"] { width: 165px; }
+
 /* ---- Card layout (main row + subtask panel) ---- */
 .tcard { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
 .tcard-main { display: flex; align-items: flex-start; gap: 13px; }

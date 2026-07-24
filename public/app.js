@@ -159,6 +159,63 @@
     filterCatEl.innerHTML = '<option value="">All categories</option>' + cats.map((c) => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
     filterCatEl.value = cats.includes(cur) ? cur : "";
     filterCategory = filterCatEl.value;
+    enhanceSelect(filterCatEl); // rebuild the custom dropdown to match
+  }
+
+  // ---- Custom dropdowns: replace native <select> so options use our font ----
+  function closeAllDropdowns() {
+    document.querySelectorAll(".dd.open").forEach((dd) => { dd.classList.remove("open"); const m = dd.querySelector(".dd-menu"); if (m) m.hidden = true; });
+  }
+  document.addEventListener("click", closeAllDropdowns);
+
+  function enhanceSelect(select) {
+    let ref = select._dd;
+    if (!ref) {
+      const dd = document.createElement("div");
+      dd.className = "dd";
+      if (select.id) dd.dataset.for = select.id;
+      select.parentNode.insertBefore(dd, select);
+      dd.appendChild(select);
+      const btn = document.createElement("button");
+      btn.type = "button"; btn.className = "dd-btn";
+      const label = document.createElement("span"); label.className = "dd-label";
+      const chev = document.createElement("span"); chev.className = "dd-chev"; chev.innerHTML = I.chevron;
+      btn.append(label, chev);
+      const menu = document.createElement("div"); menu.className = "dd-menu"; menu.hidden = true;
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const willOpen = !dd.classList.contains("open");
+        closeAllDropdowns();
+        if (willOpen) dd.classList.add("open");
+      });
+      dd.append(btn, menu);
+      ref = select._dd = { dd, btn, label, menu };
+    }
+    ref.menu.innerHTML = "";
+    Array.from(select.options).forEach((opt) => {
+      const o = document.createElement("button");
+      o.type = "button";
+      o.className = "dd-opt" + (opt.value === select.value ? " selected" : "");
+      o.textContent = opt.textContent;
+      o.addEventListener("click", () => {
+        select.value = opt.value;
+        ref.label.textContent = opt.textContent;
+        ref.menu.hidden = true; ref.dd.classList.remove("open");
+        ref.menu.querySelectorAll(".dd-opt").forEach((x) => x.classList.remove("selected"));
+        o.classList.add("selected");
+        select.dispatchEvent(new Event("change", { bubbles: true }));
+      });
+      ref.menu.appendChild(o);
+    });
+    const cur = select.options[select.selectedIndex];
+    ref.label.textContent = cur ? cur.textContent : "";
+    return ref;
+  }
+  function syncDD(select) {
+    const ref = select._dd; if (!ref) return;
+    const cur = select.options[select.selectedIndex];
+    ref.label.textContent = cur ? cur.textContent : "";
+    ref.menu.querySelectorAll(".dd-opt").forEach((o) => o.classList.toggle("selected", o.textContent === (cur ? cur.textContent : "")));
   }
   function escapeHtml(s) { return s.replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m])); }
 
@@ -176,7 +233,6 @@
     if (shDoneLabel) shDoneLabel.textContent = `${done} of ${total} done`;
 
     refreshCategoryFilter();
-    refreshCatDatalist();
 
     const visible = getVisible();
     list.innerHTML = "";
@@ -314,6 +370,9 @@
     li.classList.add("editing");
     const wrap = document.createElement("div");
     wrap.className = "tedit-panel";
+    const cats = ["", ...PRESET_CATS];
+    if (task.category && !PRESET_CATS.includes(task.category)) cats.push(task.category);
+    const catOpts = cats.map((c) => `<option value="${escapeHtml(c)}">${c ? escapeHtml(c) : "No category"}</option>`).join("");
     wrap.innerHTML =
       `<input class="e-title" type="text" maxlength="200" value="${escapeHtml(task.text)}">
        <div class="e-row">
@@ -323,13 +382,16 @@
            <option value="high">🔴 High</option>
          </select>
          <input class="e-due" type="date" value="${toDateInput(task.date)}">
-         <input class="e-cat" type="text" list="cat-list" placeholder="Category…" maxlength="40" value="${escapeHtml(task.category || "")}">
+         <select class="e-cat">${catOpts}</select>
        </div>
        <textarea class="e-notes" placeholder="Notes…" maxlength="1000">${escapeHtml(task.notes || "")}</textarea>
        <div class="e-actions"><button class="e-save" type="button">Save</button><button class="e-cancel" type="button">Cancel</button></div>`;
     li.innerHTML = "";
     li.appendChild(wrap);
-    wrap.querySelector(".e-priority").value = task.priority || "medium";
+    const priSel = wrap.querySelector(".e-priority"); priSel.value = task.priority || "medium";
+    const catSel = wrap.querySelector(".e-cat"); catSel.value = task.category || "";
+    const ddPri = enhanceSelect(priSel); ddPri.dd.style.width = "130px";
+    const ddCat = enhanceSelect(catSel); ddCat.dd.style.flex = "1"; ddCat.dd.style.minWidth = "130px";
     const titleInput = wrap.querySelector(".e-title");
     titleInput.focus();
 
@@ -362,6 +424,7 @@
     if (due) payload.date = due;
     addTask(payload);
     input.value = ""; addCategory.value = ""; addNotes.value = ""; addDue.value = ""; addPriority.value = "medium";
+    syncDD(addPriority); syncDD(addCategory);
     input.focus();
   });
 
@@ -375,6 +438,9 @@
   filterCatEl.addEventListener("change", () => { filterCategory = filterCatEl.value; render(); });
   filterPriEl.addEventListener("change", () => { filterPriority = filterPriEl.value; render(); });
   sortEl.addEventListener("change", () => { sortBy = sortEl.value; render(); });
+
+  // Turn the static selects into custom (handwritten) dropdowns.
+  [addPriority, addCategory, filterPriEl, sortEl].forEach(enhanceSelect);
 
   loadTasks();
 })();
