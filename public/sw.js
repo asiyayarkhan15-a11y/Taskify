@@ -1,7 +1,8 @@
-// Taskify service worker — makes the app installable and works offline.
-const CACHE = "taskify-v1";
+// Taskify service worker — keeps the app installable and caches static assets.
+// It deliberately does NOT intercept page navigations or API calls, so login
+// and moving between pages always use the live network (no stale/wrong pages).
+const CACHE = "taskify-v2";
 const ASSETS = [
-  "/login.html", "/signup.html", "/index.html", "/tasks.html", "/calendar.html", "/profile.html",
   "/style.css", "/auth.css",
   "/app.js", "/auth.js", "/guard.js", "/calendar.js", "/profile.js",
   "/manifest.json", "/icon-192.png", "/icon-512.png", "/icon-180.png",
@@ -13,7 +14,9 @@ self.addEventListener("install", (e) => {
 
 self.addEventListener("activate", (e) => {
   e.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())
+    caches.keys()
+      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then(() => self.clients.claim())
   );
 });
 
@@ -22,24 +25,19 @@ self.addEventListener("fetch", (e) => {
   if (req.method !== "GET") return;
   const url = new URL(req.url);
   if (url.origin !== location.origin) return;
-  // Never cache API/auth calls — always go to the network for fresh, authed data.
-  if (url.pathname.startsWith("/api/") || url.pathname.startsWith("/auth/")) return;
 
-  // Page navigations: try network first (so updates show), fall back to cache offline.
-  if (req.mode === "navigate") {
-    e.respondWith(fetch(req).catch(() => caches.match(req).then((c) => c || caches.match("/login.html"))));
-    return;
+  // Only cache-serve fingerprint-free static assets. Everything else
+  // (HTML pages, navigations, /api, /auth) goes straight to the network.
+  if (/\.(css|js|png|svg|json|woff2?)$/i.test(url.pathname)) {
+    e.respondWith(
+      caches.match(req).then((cached) =>
+        cached ||
+        fetch(req).then((res) => {
+          const copy = res.clone();
+          caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
+          return res;
+        })
+      )
+    );
   }
-
-  // Static assets: serve from cache first, otherwise fetch and cache.
-  e.respondWith(
-    caches.match(req).then((cached) =>
-      cached ||
-      fetch(req).then((res) => {
-        const copy = res.clone();
-        caches.open(CACHE).then((cache) => cache.put(req, copy)).catch(() => {});
-        return res;
-      })
-    )
-  );
 });

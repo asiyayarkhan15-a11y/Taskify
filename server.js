@@ -172,17 +172,6 @@ app.put("/api/auth/me", requireAuth, async (req, res) => {
   }
 });
 
-// Temporary diagnostic: reveals the real DB connection/auth error.
-app.get("/api/dbcheck", async (req, res) => {
-  try {
-    await connectDB(); // surfaces the actual connection error (auth / IP / missing URI)
-    const users = await User.estimatedDocumentCount();
-    res.json({ ok: true, users, state: mongoose.connection.readyState });
-  } catch (err) {
-    res.status(500).json({ ok: false, error: err.message, name: err.name, hasUri: !!MONGODB_URI, state: mongoose.connection.readyState });
-  }
-});
-
 // Google OAuth
 app.get("/api/auth/config", (req, res) => res.json({ google: GOOGLE_ENABLED }));
 if (GOOGLE_ENABLED) {
