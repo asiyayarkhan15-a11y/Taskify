@@ -175,10 +175,11 @@ app.put("/api/auth/me", requireAuth, async (req, res) => {
 // Temporary diagnostic: reveals the real DB connection/auth error.
 app.get("/api/dbcheck", async (req, res) => {
   try {
+    await connectDB(); // surfaces the actual connection error (auth / IP / missing URI)
     const users = await User.estimatedDocumentCount();
     res.json({ ok: true, users, state: mongoose.connection.readyState });
   } catch (err) {
-    res.status(500).json({ ok: false, error: err.message, name: err.name, state: mongoose.connection.readyState });
+    res.status(500).json({ ok: false, error: err.message, name: err.name, hasUri: !!MONGODB_URI, state: mongoose.connection.readyState });
   }
 });
 
@@ -278,7 +279,7 @@ let dbPromise = null;
 function connectDB() {
   if (!MONGODB_URI) return Promise.reject(new Error("Missing MONGODB_URI"));
   if (!dbPromise) {
-    dbPromise = mongoose.connect(MONGODB_URI).then((conn) => {
+    dbPromise = mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 8000 }).then((conn) => {
       resolveClient(conn.connection.getClient()); // hand the live client to the session store
       console.log("Connected to MongoDB");
       console.log(GOOGLE_ENABLED ? "Google login: enabled" : "Google login: disabled (no credentials)");
