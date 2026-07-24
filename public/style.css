@@ -181,28 +181,33 @@ h1, h2, h3, .hand { font-family: var(--hand); font-weight: 700; letter-spacing: 
 /* hide coin badge + flower from the previous theme */
 .tcoins, .tflower { display: none !important; }
 
-/* ---- Rich add form ---- */
-.add-form { margin-bottom: 14px; }
-.add-row1 { display: flex; align-items: center; gap: 8px; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 6px 6px 6px 14px; }
-.add-row1:focus-within { border-color: var(--lav-d); box-shadow: 0 0 0 3px var(--lav); }
-.add-row1 .ai { color: var(--lav-d); display: grid; place-items: center; }
-.add-row1 .ai svg { width: 20px; height: 20px; }
-.add-row1 input { flex: 1; border: none; background: transparent; outline: none; font-size: 1.15rem; color: var(--ink); padding: 10px 4px; }
+/* ---- Rich add form (single unified card) ---- */
+.add-form { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 8px; margin-bottom: 14px; box-shadow: var(--shadow-sm); transition: border-color 0.15s, box-shadow 0.15s; }
+.add-form:focus-within { border-color: var(--lav-d); box-shadow: 0 0 0 3px var(--lav); }
+.add-row1 { display: flex; align-items: center; gap: 10px; padding: 2px 2px 2px 6px; }
+.add-row1 .ai { width: 30px; height: 30px; border-radius: 9px; background: var(--lav); color: var(--purple-i); display: grid; place-items: center; flex-shrink: 0; }
+.add-row1 .ai svg { width: 16px; height: 16px; }
+.add-row1 input { flex: 1; border: none; background: transparent; outline: none; font-size: 1.15rem; color: var(--ink); padding: 8px 2px; }
 .add-row1 input::placeholder { color: var(--faint); }
-.add-submit { background: var(--purple); color: var(--purple-i); font-weight: 700; font-size: 1.1rem; padding: 10px 20px; border-radius: 9px; }
+.add-submit { background: var(--purple); color: var(--purple-i); font-weight: 700; font-size: 1.08rem; padding: 9px 22px; border-radius: 10px; flex-shrink: 0; }
 .add-submit:hover { filter: brightness(0.98); }
-.add-row2 { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-.add-row2 select, .add-row2 input { font-family: inherit; font-size: 0.98rem; color: var(--ink); border: 1px solid var(--line); border-radius: 9px; padding: 8px 10px; background: #fff; outline: none; }
-.add-row2 select:focus, .add-row2 input:focus { border-color: var(--lav-d); }
-.add-row2 #add-category { width: 140px; }
-.add-row2 #add-notes { flex: 1; min-width: 160px; }
+.add-row2 { display: flex; gap: 8px; margin: 8px 4px 2px; padding-top: 10px; border-top: 1px solid var(--line); flex-wrap: wrap; }
+.add-row2 select, .add-row2 input { height: 38px; font-family: inherit; font-size: 0.98rem; color: var(--ink-soft, var(--ink)); border: 1px solid var(--line); border-radius: 9px; padding: 0 11px; background: var(--paper); outline: none; }
+.add-row2 select:hover, .add-row2 input:hover { border-color: var(--faint); }
+.add-row2 select:focus, .add-row2 input:focus { border-color: var(--lav-d); background: #fff; }
+.add-row2 #add-priority { width: 120px; }
+.add-row2 #add-due { width: 140px; }
+.add-row2 #add-category { width: 130px; }
+.add-row2 #add-notes { flex: 1; min-width: 150px; }
 
-/* ---- Toolbar (search / filter / sort) ---- */
+/* ---- Toolbar (search / filter / sort) — one aligned row ---- */
 .toolbar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
-.tool-search { flex: 1; min-width: 160px; display: flex; align-items: center; gap: 8px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 0 12px; }
-.tool-search svg { width: 17px; height: 17px; color: var(--faint); flex-shrink: 0; }
-.tool-search input { flex: 1; border: none; background: transparent; outline: none; font-size: 1.02rem; color: var(--ink); padding: 9px 0; }
-.toolbar select { font-family: inherit; font-size: 0.95rem; color: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 9px 10px; background: #fff; outline: none; }
+.tool-search { flex: 1; min-width: 180px; height: 40px; display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 0 12px; }
+.tool-search:focus-within { border-color: var(--lav-d); }
+.tool-search svg { width: 16px; height: 16px; color: var(--faint); flex-shrink: 0; }
+.tool-search input { flex: 1; border: none; background: transparent; outline: none; font-size: 1rem; color: var(--ink); }
+.toolbar select { height: 40px; font-family: inherit; font-size: 0.95rem; color: var(--muted); border: 1px solid var(--line); border-radius: 10px; padding: 0 12px; background: #fff; outline: none; cursor: pointer; }
+.toolbar select:hover { border-color: var(--faint); }
 .toolbar select:focus { border-color: var(--lav-d); }
 
 /* ---- Card layout (main row + subtask panel) ---- */
