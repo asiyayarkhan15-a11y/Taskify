@@ -279,12 +279,18 @@ let dbPromise = null;
 function connectDB() {
   if (!MONGODB_URI) return Promise.reject(new Error("Missing MONGODB_URI"));
   if (!dbPromise) {
-    dbPromise = mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 8000 }).then((conn) => {
-      resolveClient(conn.connection.getClient()); // hand the live client to the session store
-      console.log("Connected to MongoDB");
-      console.log(GOOGLE_ENABLED ? "Google login: enabled" : "Google login: disabled (no credentials)");
-      return conn;
-    });
+    dbPromise = mongoose
+      .connect(MONGODB_URI, { serverSelectionTimeoutMS: 8000 })
+      .then((conn) => {
+        resolveClient(conn.connection.getClient()); // hand the live client to the session store
+        console.log("Connected to MongoDB");
+        console.log(GOOGLE_ENABLED ? "Google login: enabled" : "Google login: disabled (no credentials)");
+        return conn;
+      })
+      .catch((err) => {
+        dbPromise = null; // don't cache the failure — let the next request retry
+        throw err;
+      });
   }
   return dbPromise;
 }
