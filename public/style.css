@@ -235,6 +235,8 @@ h1, h2, h3, .hand { font-family: var(--hand); font-weight: 700; letter-spacing: 
 .head-flower { display: flex; align-items: center; gap: 9px; }
 .title-flower { width: 26px; height: 26px; flex-shrink: 0; }
 .title-flower svg { width: 100%; height: 100%; display: block; }
+.mini-flower { width: 17px; height: 17px; display: inline-block; vertical-align: -3px; margin-left: 4px; }
+.mini-flower svg { width: 100%; height: 100%; display: block; }
 
 .day-head { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
 .day-flower { width: 24px; height: 24px; flex-shrink: 0; }
