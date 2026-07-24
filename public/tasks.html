@@ -92,9 +92,10 @@
             <option value="high">🔴 High</option>
           </select>
           <input type="date" id="add-due" title="Due date" aria-label="Due date">
-          <input type="text" id="add-category" placeholder="Category…" maxlength="40" autocomplete="off">
+          <input type="text" id="add-category" list="cat-list" placeholder="Category…" maxlength="40" autocomplete="off">
           <input type="text" id="add-notes" placeholder="Notes (optional)…" maxlength="1000" autocomplete="off">
         </div>
+        <datalist id="cat-list"></datalist>
       </form>
 
       <div class="toolbar">

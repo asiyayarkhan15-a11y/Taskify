@@ -71,6 +71,19 @@
   function coinsFor(id) { return COIN_VALUES[hash(id) % COIN_VALUES.length]; }
   const PRIORITY = { high: { label: "High", rank: 3 }, medium: { label: "Medium", rank: 2 }, low: { label: "Low", rank: 1 } };
 
+  // Preset categories with fixed colors; custom ones get a stable color from the palette.
+  const CAT_COLORS = { Work: "#4b6ea0", Study: "#7256a3", Personal: "#4b8a5a", Health: "#b5566e", Shopping: "#a5842c", Fitness: "#0d9488", Finance: "#b1544e", Home: "#c67b2a" };
+  const PRESET_CATS = Object.keys(CAT_COLORS);
+  const CAT_PALETTE = ["#4b6ea0", "#7256a3", "#4b8a5a", "#b5566e", "#a5842c", "#0d9488", "#b1544e", "#8a7550"];
+  function catColor(name) { return CAT_COLORS[name] || CAT_PALETTE[hash(name) % CAT_PALETTE.length]; }
+  function hexToRgba(hex, a) { const n = parseInt(hex.slice(1), 16); return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`; }
+  function refreshCatDatalist() {
+    const dl = document.getElementById("cat-list"); if (!dl) return;
+    const existing = tasks.map((t) => (t.category || "").trim()).filter(Boolean);
+    const all = [...new Set([...PRESET_CATS, ...existing])];
+    dl.innerHTML = all.map((c) => `<option value="${escapeHtml(c)}"></option>`).join("");
+  }
+
   function startOfToday() { const d = new Date(); d.setHours(0, 0, 0, 0); return d; }
   function fmtDue(iso) {
     if (!iso) return null;
@@ -163,6 +176,7 @@
     if (shDoneLabel) shDoneLabel.textContent = `${done} of ${total} done`;
 
     refreshCategoryFilter();
+    refreshCatDatalist();
 
     const visible = getVisible();
     list.innerHTML = "";
@@ -205,7 +219,13 @@
     });
     meta.appendChild(pri);
 
-    if (task.category) meta.appendChild(tag("tag-cat", `${I.tag}${escapeHtml(task.category)}`));
+    if (task.category) {
+      const c = catColor(task.category);
+      const ct = tag("tag-cat", `${I.tag}${escapeHtml(task.category)}`);
+      ct.style.color = c;
+      ct.style.background = hexToRgba(c, 0.15);
+      meta.appendChild(ct);
+    }
 
     const due = fmtDue(task.date);
     if (due) meta.appendChild(tag("tag-due" + (due.overdue && !task.completed ? " overdue" : ""), `${I.cal}${due.label}`));
@@ -303,7 +323,7 @@
            <option value="high">🔴 High</option>
          </select>
          <input class="e-due" type="date" value="${toDateInput(task.date)}">
-         <input class="e-cat" type="text" placeholder="Category…" maxlength="40" value="${escapeHtml(task.category || "")}">
+         <input class="e-cat" type="text" list="cat-list" placeholder="Category…" maxlength="40" value="${escapeHtml(task.category || "")}">
        </div>
        <textarea class="e-notes" placeholder="Notes…" maxlength="1000">${escapeHtml(task.notes || "")}</textarea>
        <div class="e-actions"><button class="e-save" type="button">Save</button><button class="e-cancel" type="button">Cancel</button></div>`;
