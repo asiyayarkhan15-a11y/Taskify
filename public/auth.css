@@ -70,6 +70,12 @@ input { font-family: inherit; }
 }
 .field input:focus { border-color: var(--blue-d); box-shadow: 0 0 0 3px rgba(170,196,230,0.3); }
 
+.pw-wrap { position: relative; }
+.pw-wrap input { width: 100%; padding-right: 44px; }
+.pw-toggle { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; border: none; background: none; cursor: pointer; color: var(--faint); display: grid; place-items: center; padding: 0; border-radius: 8px; }
+.pw-toggle svg { width: 19px; height: 19px; }
+.pw-toggle:hover { color: var(--ink); background: rgba(0,0,0,0.03); }
+
 .auth-btn {
   width: 100%; margin-top: 6px; padding: 12px; border-radius: 10px;
   background: var(--blue); color: #24405f; font-weight: 700; font-size: 0.95rem;
