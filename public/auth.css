@@ -1,0 +1,96 @@
+/* ============================================================
+   Taskify — Notebook auth pages (login / signup)
+   ============================================================ */
+:root {
+  --paper: #fbfaf5;
+  --dot: #dcdacd;
+  --ink: #3a3a34;
+  --muted: #8a887e;
+  --faint: #b3b1a5;
+  --card: #ffffff;
+  --line: #ece9dd;
+  --blue: #aac4e6;
+  --blue-d: #7fa3d6;
+  --pink: #efb9c4;
+  --violet: #cbb9e6;
+  --font-hand: "Caveat", "Segoe Script", cursive;
+  --font-body: "Caveat", "Segoe Script", cursive;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 18px;
+  background-color: var(--paper);
+  background-image: radial-gradient(var(--dot) 1.3px, transparent 1.3px);
+  background-size: 22px 22px;
+}
+
+a { color: var(--blue-d); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { font-family: inherit; cursor: pointer; border: none; }
+input { font-family: inherit; }
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--pink);
+  border-radius: 16px;
+  box-shadow: 0 18px 44px rgba(60, 58, 52, 0.12);
+  padding: 34px 32px 30px;
+}
+.auth-brand {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-hand); font-size: 1.4rem; color: var(--muted);
+  margin-bottom: 18px;
+}
+.auth-brand .tick {
+  width: 22px; height: 22px; border-radius: 6px; background: #cfe3c6;
+  display: grid; place-items: center; color: #5c8a4a;
+}
+.auth-brand .tick svg { width: 13px; height: 13px; }
+
+.auth-card h1 { font-family: var(--font-hand); font-size: 2.5rem; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+.auth-sub { color: var(--muted); font-size: 0.82rem; letter-spacing: 0.04em; margin-bottom: 22px; }
+
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: 1rem; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
+.field input {
+  width: 100%; padding: 11px 13px; font-size: 1.15rem;
+  border: 1px solid var(--line); border-radius: 9px; outline: none;
+  background: #fdfdfb; color: var(--ink); transition: border-color 0.15s, box-shadow 0.15s;
+}
+.field input:focus { border-color: var(--blue-d); box-shadow: 0 0 0 3px rgba(170,196,230,0.3); }
+
+.auth-btn {
+  width: 100%; margin-top: 6px; padding: 12px; border-radius: 10px;
+  background: var(--blue); color: #24405f; font-weight: 700; font-size: 0.95rem;
+  transition: filter 0.15s, transform 0.1s;
+}
+.auth-btn:hover { filter: brightness(0.97); }
+.auth-btn:active { transform: translateY(1px); }
+
+.auth-divider { display: flex; align-items: center; gap: 12px; margin: 18px 0; color: var(--faint); font-size: 0.8rem; }
+.auth-divider::before, .auth-divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+.google-btn {
+  width: 100%; padding: 11px; border-radius: 10px; background: #fff; border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  font-weight: 600; font-size: 0.92rem; color: var(--ink); transition: background 0.15s, border-color 0.15s;
+}
+.google-btn:hover { background: #faf9f6; border-color: var(--faint); }
+.google-btn svg { width: 18px; height: 18px; }
+.google-btn.hidden { display: none; }
+
+.auth-foot { text-align: center; margin-top: 18px; font-size: 0.86rem; color: var(--muted); }
+
+.auth-msg { min-height: 1.1em; font-size: 0.84rem; margin-bottom: 10px; color: #c0392b; }
+.auth-msg.ok { color: #4a8a3a; }

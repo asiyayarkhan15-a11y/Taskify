@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taskify — Turn your to-dos into rewards</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="topnav">
+    <a href="index.html" class="nav-brand">
+      <span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+      Taskify
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="tasks.html">My Tasks</a>
+      <a href="calendar.html">Calendar</a>
+      <a href="profile.html">Profile</a>
+    </div>
+    <div class="nav-user">
+      <span class="nav-ava" data-user-initial>U</span>
+      <span class="uname" data-user-first>You</span>
+      <button class="logout-btn" data-logout>Log out</button>
+    </div>
+  </nav>
+
+  <div class="wrap wide">
+    <section class="home-hero">
+      <span class="kicker">Daily habits • Rewards</span>
+      <h1>Turn your to-dos into little wins.</h1>
+      <p>Add your tasks, check them off, and collect coins as you go. A calm, cheerful way to stay on track every day.</p>
+      <div class="home-actions">
+        <a href="tasks.html" class="btn btn-white">Start my tasks →</a>
+        <a href="calendar.html" class="btn btn-outline">See calendar</a>
+      </div>
+    </section>
+
+    <section class="home-features">
+      <a href="tasks.html" class="feature o">
+        <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></div>
+        <h3>Add tasks fast</h3>
+        <p>Jot down anything in seconds and it appears as a bright, tidy card.</p>
+        <span class="feature-go">Add a task →</span>
+      </a>
+      <a href="tasks.html" class="feature g">
+        <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M9 12h6"/></svg></div>
+        <h3>Earn coins</h3>
+        <p>Every task you complete rewards you with coins to keep the momentum.</p>
+        <span class="feature-go">Start earning →</span>
+      </a>
+      <a href="calendar.html" class="feature v">
+        <div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <h3>Plan your days</h3>
+        <p>See when tasks were added on a clean calendar and stay organized.</p>
+        <span class="feature-go">Open calendar →</span>
+      </a>
+    </section>
+  </div>
+
+  <script src="guard.js"></script>
+</body>
+</html>

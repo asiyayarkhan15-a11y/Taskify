@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taskify — Profile</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="topnav">
+    <a href="tasks.html" class="nav-brand">
+      <span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+      Taskify
+    </a>
+    <div class="nav-links">
+      <a href="tasks.html">My Tasks</a>
+      <a href="calendar.html">Calendar</a>
+      <a href="profile.html" class="active">Profile</a>
+    </div>
+    <div class="nav-user">
+      <span class="nav-ava" data-user-initial>U</span>
+      <span class="uname" data-user-first>You</span>
+      <button class="logout-btn" data-logout>Log out</button>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <h1 class="page-title">Your profile</h1>
+    <p class="page-sub" data-user-email>&nbsp;</p>
+
+    <div class="profile-card">
+      <div class="profile-pic-wrap">
+        <div class="profile-ava" data-user-initial id="prof-ava">U</div>
+        <button type="button" class="change-pic" id="change-pic">Change picture</button>
+        <input type="file" id="pic-input" accept="image/*" hidden>
+      </div>
+      <form id="profile-form">
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" data-user-email disabled>
+        </div>
+        <div class="field">
+          <label for="name">Full name</label>
+          <input type="text" id="name" maxlength="80" required>
+        </div>
+        <button type="submit" class="save-btn">Save changes</button>
+        <p class="profile-msg" id="msg"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="guard.js"></script>
+  <script src="profile.js"></script>
+</body>
+</html>

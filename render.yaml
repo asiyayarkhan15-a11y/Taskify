@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: taskify
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      # Paste your MongoDB Atlas connection string in the Render dashboard.
+      - key: MONGODB_URI
+        sync: false
+      # Render generates a strong random session secret for you.
+      - key: SESSION_SECRET
+        generateValue: true
+      # Optional Google login — leave blank unless you set up OAuth.
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_CALLBACK_URL
+        sync: false

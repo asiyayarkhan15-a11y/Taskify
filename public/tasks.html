@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taskify — My Tasks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="topnav">
+    <a href="index.html" class="nav-brand">
+      <span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+      Taskify
+    </a>
+    <div class="nav-links">
+      <a href="tasks.html" class="active">My Tasks</a>
+      <a href="calendar.html">Calendar</a>
+      <a href="profile.html">Profile</a>
+    </div>
+    <div class="nav-user">
+      <span class="nav-ava" data-user-initial>U</span>
+      <span class="uname" data-user-first>You</span>
+      <button class="logout-btn" data-logout>Log out</button>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <!-- Hero stat -->
+    <section class="stat-hero">
+      <div class="sh-top">
+        <div class="sh-user">
+          <div class="sh-avatar" data-user-initial>Y</div>
+          <div><b>Hi <span data-user-first>there</span></b><small id="sh-date">Today</small></div>
+        </div>
+        <div class="sh-chips">
+          <div class="sh-chip streak" title="Daily streak">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1.5 3-1 4.5-1 6.5 0 1.2.8 2 1.8 2 1.4 0 2.2-1.2 2.2-2.6 1.6 1.4 3 3.6 3 6.1a6 6 0 0 1-12 0c0-2.6 1.4-4.4 3-6.4C11.6 6 10.8 4.4 12 2z"/></svg>
+            <span id="sh-streak">0</span>
+          </div>
+          <div class="sh-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span id="sh-count">0 / 0</span>
+          </div>
+        </div>
+      </div>
+      <div class="sh-center">
+        <svg class="sh-coin" viewBox="0 0 64 64" fill="none">
+          <ellipse cx="32" cy="54" rx="22" ry="6" fill="#000" opacity="0.08"/>
+          <circle cx="32" cy="30" r="22" fill="#f6d365"/>
+          <circle cx="32" cy="30" r="22" fill="none" stroke="#e0a92e" stroke-width="3"/>
+          <circle cx="32" cy="30" r="15" fill="none" stroke="#e0a92e" stroke-width="2" opacity="0.7"/>
+          <text x="32" y="37" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="20" font-weight="800" fill="#c8891f">$</text>
+        </svg>
+        <div class="sh-number" id="sh-coins">0</div>
+        <div class="sh-cap">coins collected</div>
+      </div>
+      <div class="sh-bar">
+        <div class="sh-bar-track"><div class="sh-bar-fill" id="sh-fill"></div></div>
+        <div class="sh-bar-label"><span id="sh-done-label">0 of 0 done</span><span id="sh-pct">0%</span></div>
+      </div>
+    </section>
+
+    <!-- Sheet -->
+    <section class="sheet">
+      <div class="sheet-head">
+        <h2>Today</h2>
+        <div class="toggle-tabs" id="tabs">
+          <button class="active" data-filter="all">All</button>
+          <button data-filter="active">To do</button>
+          <button data-filter="completed">Done</button>
+        </div>
+      </div>
+
+      <form class="add-bar" id="task-form">
+        <span class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
+        <input type="text" id="task-input" placeholder="Add a new task…" autocomplete="off" maxlength="200" required>
+        <button type="submit">Add</button>
+      </form>
+
+      <p class="status" id="status"></p>
+
+      <ul class="task-list" id="task-list"></ul>
+
+      <div class="empty" id="empty">
+        <div class="ee"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h3>No tasks yet</h3>
+        <p>Add your first task above and start collecting coins.</p>
+      </div>
+    </section>
+  </div>
+
+  <script src="guard.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
