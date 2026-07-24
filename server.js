@@ -248,22 +248,31 @@ app.get("/", (req, res) => {
 // --- Static files (after routes) ---
 app.use(express.static(path.join(__dirname, "public")));
 
-// --- Startup ---
-async function start() {
-  if (!MONGODB_URI) {
-    console.error("Missing MONGODB_URI. Copy .env.example to .env and set your Atlas connection string.");
-    process.exit(1);
+// --- Database connection (cached so serverless invocations reuse it) ---
+let dbPromise = null;
+function connectDB() {
+  if (!MONGODB_URI) return Promise.reject(new Error("Missing MONGODB_URI"));
+  if (!dbPromise) {
+    dbPromise = mongoose.connect(MONGODB_URI).then((conn) => {
+      resolveClient(conn.connection.getClient()); // hand the live client to the session store
+      console.log("Connected to MongoDB");
+      console.log(GOOGLE_ENABLED ? "Google login: enabled" : "Google login: disabled (no credentials)");
+      return conn;
+    });
   }
-  try {
-    await mongoose.connect(MONGODB_URI);
-    resolveClient(mongoose.connection.getClient()); // hand the live client to the session store
-    console.log("Connected to MongoDB");
-    console.log(GOOGLE_ENABLED ? "Google login: enabled" : "Google login: disabled (no credentials)");
-    app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
-  } catch (err) {
-    console.error("Failed to connect to MongoDB:", err.message);
-    process.exit(1);
-  }
+  return dbPromise;
 }
 
-start();
+// Start connecting as soon as the module loads (covers both local and serverless).
+connectDB().catch((err) => console.error("MongoDB connection error:", err.message));
+
+// Local development: run a normal always-on server.
+// On a serverless host (Vercel) this file is imported, so this block is skipped.
+if (require.main === module) {
+  connectDB()
+    .then(() => app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`)))
+    .catch(() => process.exit(1));
+}
+
+// Export the Express app so Vercel can use it as the serverless handler.
+module.exports = app;
