@@ -1,10 +1,11 @@
 {
   "version": 2,
+  "regions": ["iad1"],
   "builds": [
     {
       "src": "server.js",
       "use": "@vercel/node",
-      "config": { "includeFiles": ["public/**"] }
+      "config": { "includeFiles": ["public/**"], "maxDuration": 30 }
     }
   ],
   "routes": [

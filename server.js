@@ -269,7 +269,11 @@ function connectDB() {
   if (!MONGODB_URI) return Promise.reject(new Error("Missing MONGODB_URI"));
   if (!dbPromise) {
     dbPromise = mongoose
-      .connect(MONGODB_URI, { serverSelectionTimeoutMS: 8000 })
+      .connect(MONGODB_URI, {
+        serverSelectionTimeoutMS: 20000, // allow slow cross-region connects to finish
+        socketTimeoutMS: 45000,
+        maxPoolSize: 5, // keep well under Atlas free-tier connection limit
+      })
       .then((conn) => {
         resolveClient(conn.connection.getClient()); // hand the live client to the session store
         console.log("Connected to MongoDB");
