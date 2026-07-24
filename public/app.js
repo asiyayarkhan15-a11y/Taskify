@@ -372,7 +372,7 @@
     wrap.className = "tedit-panel";
     const cats = ["", ...PRESET_CATS];
     if (task.category && !PRESET_CATS.includes(task.category)) cats.push(task.category);
-    const catOpts = cats.map((c) => `<option value="${escapeHtml(c)}">${c ? escapeHtml(c) : "No category"}</option>`).join("");
+    const catOpts = cats.map((c) => `<option value="${escapeHtml(c)}">${c ? escapeHtml(c) : "Category"}</option>`).join("");
     wrap.innerHTML =
       `<input class="e-title" type="text" maxlength="200" value="${escapeHtml(task.text)}">
        <div class="e-row">
