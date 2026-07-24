@@ -231,6 +231,11 @@ h1, h2, h3, .hand { font-family: var(--hand); font-weight: 700; letter-spacing: 
 .cal-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--pink-i); }
 .cal-cell.today .cal-dot { background: var(--purple-i); }
 
+/* reusable little tulip next to headings */
+.head-flower { display: flex; align-items: center; gap: 9px; }
+.title-flower { width: 26px; height: 26px; flex-shrink: 0; }
+.title-flower svg { width: 100%; height: 100%; display: block; }
+
 .day-head { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
 .day-flower { width: 24px; height: 24px; flex-shrink: 0; }
 .day-flower svg { width: 100%; height: 100%; }
