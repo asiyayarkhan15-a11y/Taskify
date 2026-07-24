@@ -12,12 +12,38 @@ const taskSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    // The day this task is scheduled for. Defaults to now so tasks added
-    // from the main list land on today; the calendar can set a specific day.
+    // Due date (also used by the calendar to place the task on a day).
     date: {
       type: Date,
       default: Date.now,
     },
+    // High / medium / low, shown as a colored tag and used for sorting.
+    priority: {
+      type: String,
+      enum: ["low", "medium", "high"],
+      default: "medium",
+    },
+    // Free-text group like "Work", "Study", "Personal".
+    category: {
+      type: String,
+      trim: true,
+      maxlength: [40, "Category is too long"],
+      default: "",
+    },
+    // Optional longer description.
+    notes: {
+      type: String,
+      trim: true,
+      maxlength: [1000, "Notes are too long"],
+      default: "",
+    },
+    // Checklist of smaller steps.
+    subtasks: [
+      {
+        text: { type: String, trim: true, maxlength: 200 },
+        done: { type: Boolean, default: false },
+      },
+    ],
     // The user who owns this task.
     owner: {
       type: mongoose.Schema.Types.ObjectId,

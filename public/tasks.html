@@ -79,11 +79,42 @@
         </div>
       </div>
 
-      <form class="add-bar" id="task-form">
-        <span class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
-        <input type="text" id="task-input" placeholder="Add a new task…" autocomplete="off" maxlength="200" required>
-        <button type="submit">Add</button>
+      <form class="add-form" id="task-form">
+        <div class="add-row1">
+          <span class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          <input type="text" id="task-input" placeholder="Add a new task…" autocomplete="off" maxlength="200" required>
+          <button type="submit" class="add-submit">Add</button>
+        </div>
+        <div class="add-row2">
+          <select id="add-priority" title="Priority" aria-label="Priority">
+            <option value="low">🟢 Low</option>
+            <option value="medium" selected>🟡 Medium</option>
+            <option value="high">🔴 High</option>
+          </select>
+          <input type="date" id="add-due" title="Due date" aria-label="Due date">
+          <input type="text" id="add-category" placeholder="Category…" maxlength="40" autocomplete="off">
+          <input type="text" id="add-notes" placeholder="Notes (optional)…" maxlength="1000" autocomplete="off">
+        </div>
       </form>
+
+      <div class="toolbar">
+        <div class="tool-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="search" id="search" placeholder="Search…" autocomplete="off">
+        </div>
+        <select id="filter-category"><option value="">All categories</option></select>
+        <select id="filter-priority">
+          <option value="">Any priority</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+        <select id="sort-by">
+          <option value="created">Sort: Newest</option>
+          <option value="due">Sort: Due date</option>
+          <option value="priority">Sort: Priority</option>
+        </select>
+      </div>
 
       <p class="status" id="status"></p>
 

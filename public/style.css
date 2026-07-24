@@ -173,16 +173,91 @@ h1, h2, h3, .hand { font-family: var(--hand); font-weight: 700; letter-spacing: 
   border-radius: 12px; padding: 13px 15px; color: var(--ink); box-shadow: var(--shadow-sm);
   animation: pop 0.24s ease;
 }
-.task-list .tcard:nth-child(6n+1) { border-left-color: var(--blue-i); }
-.task-list .tcard:nth-child(6n+2) { border-left-color: var(--pink-i); }
-.task-list .tcard:nth-child(6n+3) { border-left-color: var(--green-i); }
-.task-list .tcard:nth-child(6n+4) { border-left-color: var(--yellow-i); }
-.task-list .tcard:nth-child(6n+5) { border-left-color: var(--purple-i); }
-.task-list .tcard:nth-child(6n+6) { border-left-color: var(--red-i); }
+.tcard.pr-high { border-left-color: var(--red-i); }
+.tcard.pr-medium { border-left-color: #d9a441; }
+.tcard.pr-low { border-left-color: var(--green-i); }
 .tcard.done { background: #fbfbf8; }
 
 /* hide coin badge + flower from the previous theme */
 .tcoins, .tflower { display: none !important; }
+
+/* ---- Rich add form ---- */
+.add-form { margin-bottom: 14px; }
+.add-row1 { display: flex; align-items: center; gap: 8px; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 6px 6px 6px 14px; }
+.add-row1:focus-within { border-color: var(--lav-d); box-shadow: 0 0 0 3px var(--lav); }
+.add-row1 .ai { color: var(--lav-d); display: grid; place-items: center; }
+.add-row1 .ai svg { width: 20px; height: 20px; }
+.add-row1 input { flex: 1; border: none; background: transparent; outline: none; font-size: 1.15rem; color: var(--ink); padding: 10px 4px; }
+.add-row1 input::placeholder { color: var(--faint); }
+.add-submit { background: var(--purple); color: var(--purple-i); font-weight: 700; font-size: 1.1rem; padding: 10px 20px; border-radius: 9px; }
+.add-submit:hover { filter: brightness(0.98); }
+.add-row2 { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.add-row2 select, .add-row2 input { font-family: inherit; font-size: 0.98rem; color: var(--ink); border: 1px solid var(--line); border-radius: 9px; padding: 8px 10px; background: #fff; outline: none; }
+.add-row2 select:focus, .add-row2 input:focus { border-color: var(--lav-d); }
+.add-row2 #add-category { width: 140px; }
+.add-row2 #add-notes { flex: 1; min-width: 160px; }
+
+/* ---- Toolbar (search / filter / sort) ---- */
+.toolbar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+.tool-search { flex: 1; min-width: 160px; display: flex; align-items: center; gap: 8px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 0 12px; }
+.tool-search svg { width: 17px; height: 17px; color: var(--faint); flex-shrink: 0; }
+.tool-search input { flex: 1; border: none; background: transparent; outline: none; font-size: 1.02rem; color: var(--ink); padding: 9px 0; }
+.toolbar select { font-family: inherit; font-size: 0.95rem; color: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 9px 10px; background: #fff; outline: none; }
+.toolbar select:focus { border-color: var(--lav-d); }
+
+/* ---- Card layout (main row + subtask panel) ---- */
+.tcard { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+.tcard-main { display: flex; align-items: flex-start; gap: 13px; }
+.tcheck { margin-top: 1px; }
+.tactions { align-items: flex-start; }
+
+/* meta tags */
+.tmeta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
+.tag { display: inline-flex; align-items: center; gap: 5px; font-size: 0.82rem; font-weight: 600; padding: 3px 9px; border-radius: 999px; line-height: 1.4; }
+.tag svg { width: 12px; height: 12px; }
+.tag .dot { width: 7px; height: 7px; border-radius: 50%; }
+.tag-pri.high { background: var(--red); color: var(--red-i); } .tag-pri.high .dot { background: var(--red-i); }
+.tag-pri.medium { background: var(--yellow); color: var(--yellow-i); } .tag-pri.medium .dot { background: #d9a441; }
+.tag-pri.low { background: var(--green); color: var(--green-i); } .tag-pri.low .dot { background: var(--green-i); }
+.tag-cat { background: var(--lav); color: var(--purple-i); }
+.tag-due { background: var(--paper); color: var(--muted); border: 1px solid var(--line); }
+.tag-due.overdue { background: var(--red); color: var(--red-i); border-color: transparent; }
+.tag-sub { background: var(--blue); color: var(--blue-i); }
+.tnotes { margin-top: 7px; font-size: 0.95rem; color: var(--muted); line-height: 1.45; white-space: pre-wrap; word-break: break-word; }
+
+.expand-btn.open { color: var(--purple-i); background: var(--lav); transform: rotate(180deg); }
+
+/* ---- Subtasks panel ---- */
+.tsub { margin: 12px 0 2px 36px; padding-left: 14px; border-left: 2px dashed var(--line); }
+.subtask-list { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+.subtask { display: flex; align-items: center; gap: 9px; }
+.sub-box { width: 18px; height: 18px; border-radius: 6px; border: 2px solid var(--faint); background: #fff; display: grid; place-items: center; flex-shrink: 0; }
+.sub-box svg { width: 10px; height: 10px; color: #fff; opacity: 0; }
+.subtask.done .sub-box { background: var(--green-i); border-color: var(--green-i); }
+.subtask.done .sub-box svg { opacity: 1; }
+.sub-text { flex: 1; font-size: 1rem; }
+.subtask.done .sub-text { text-decoration: line-through; color: var(--faint); }
+.sub-del { width: 24px; height: 24px; border-radius: 6px; display: grid; place-items: center; color: var(--faint); }
+.sub-del svg { width: 13px; height: 13px; }
+.sub-del:hover { background: var(--red); color: var(--red-i); }
+.subtask-add { display: flex; align-items: center; gap: 7px; }
+.subtask-add span { color: var(--lav-d); display: grid; place-items: center; }
+.subtask-add span svg { width: 16px; height: 16px; }
+.subtask-add input { flex: 1; border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; font-size: 0.98rem; font-family: inherit; outline: none; background: #fff; }
+.subtask-add input:focus { border-color: var(--lav-d); }
+.subtask-add button { background: var(--lav); color: var(--purple-i); font-weight: 700; font-size: 0.9rem; padding: 7px 13px; border-radius: 8px; }
+
+/* ---- Edit panel ---- */
+.tedit-panel { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+.tedit-panel .e-title { font-family: inherit; font-size: 1.15rem; font-weight: 600; color: var(--ink); border: 1px solid var(--lav-d); border-radius: 9px; padding: 9px 11px; outline: none; }
+.tedit-panel .e-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.tedit-panel .e-row select, .tedit-panel .e-row input { font-family: inherit; font-size: 0.98rem; color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; background: #fff; outline: none; }
+.tedit-panel .e-cat { flex: 1; min-width: 120px; }
+.tedit-panel .e-notes { font-family: inherit; font-size: 1rem; color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; outline: none; resize: vertical; min-height: 60px; }
+.tedit-panel .e-notes:focus, .tedit-panel .e-row input:focus, .tedit-panel .e-row select:focus { border-color: var(--lav-d); }
+.tedit-panel .e-actions { display: flex; gap: 8px; }
+.tedit-panel .e-save { background: var(--green); color: var(--green-i); font-weight: 700; padding: 9px 20px; border-radius: 9px; font-size: 1rem; }
+.tedit-panel .e-cancel { background: var(--paper); color: var(--muted); border: 1px solid var(--line); font-weight: 600; padding: 9px 18px; border-radius: 9px; font-size: 1rem; }
 
 .tcheck { width: 22px; height: 22px; border-radius: 7px; flex-shrink: 0; background: #fff; border: 2px solid var(--faint); display: grid; place-items: center; cursor: pointer; transition: all 0.15s; }
 .tcheck svg { width: 12px; height: 12px; color: #fff; opacity: 0; }

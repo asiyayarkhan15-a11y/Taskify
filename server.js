@@ -200,6 +200,9 @@ app.post("/api/tasks", requireAuth, async (req, res) => {
       const d = new Date(req.body.date);
       if (!isNaN(d)) data.date = d;
     }
+    if (["low", "medium", "high"].includes(req.body.priority)) data.priority = req.body.priority;
+    if (typeof req.body.category === "string") data.category = req.body.category;
+    if (typeof req.body.notes === "string") data.notes = req.body.notes;
     const task = await Task.create(data);
     res.status(201).json(task);
   } catch (err) {
@@ -213,6 +216,18 @@ app.put("/api/tasks/:id", requireAuth, async (req, res) => {
     const updates = {};
     if (typeof req.body.text === "string") updates.text = req.body.text;
     if (typeof req.body.completed === "boolean") updates.completed = req.body.completed;
+    if (["low", "medium", "high"].includes(req.body.priority)) updates.priority = req.body.priority;
+    if (typeof req.body.category === "string") updates.category = req.body.category;
+    if (typeof req.body.notes === "string") updates.notes = req.body.notes;
+    if (req.body.date) {
+      const d = new Date(req.body.date);
+      if (!isNaN(d)) updates.date = d;
+    }
+    if (Array.isArray(req.body.subtasks)) {
+      updates.subtasks = req.body.subtasks
+        .filter((s) => s && typeof s.text === "string")
+        .map((s) => ({ text: s.text.slice(0, 200), done: !!s.done }));
+    }
 
     const task = await Task.findOneAndUpdate(
       { _id: req.params.id, owner: req.user.id },
