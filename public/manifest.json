@@ -1,0 +1,15 @@
+{
+  "name": "Taskify — Plan your day",
+  "short_name": "Taskify",
+  "description": "A friendly to-do app: tasks, categories, due dates, subtasks and more.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fbfaf5",
+  "theme_color": "#8fbf5c",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
