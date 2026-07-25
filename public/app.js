@@ -124,10 +124,17 @@
   }
   async function patchTask(id, patch, afterBump) {
     const task = tasks.find((t) => t._id === id); if (!task) return;
+    const wasCompleted = task.completed;
     try {
       const u = await request(`${API}/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(patch) });
       Object.assign(task, u);
       if (afterBump) afterBump();
+      // 🎉 Celebrate only when a task goes from not-done → done (bigger burst if all done).
+      if (!wasCompleted && task.completed && window.confettiCelebrate) {
+        const done = tasks.filter((t) => t.completed).length;
+        const allDone = tasks.length > 0 && done === tasks.length;
+        window.confettiCelebrate({ big: allDone, count: allDone ? 160 : 70 });
+      }
       render();
     } catch (err) { setStatus(err.message, true); }
   }
