@@ -1,15 +1,12 @@
-// Taskify service worker — keeps the app installable and caches static assets.
-// It deliberately does NOT intercept page navigations or API calls, so login
-// and moving between pages always use the live network (no stale/wrong pages).
-const CACHE = "taskify-v2";
-const ASSETS = [
-  "/style.css", "/auth.css",
-  "/app.js", "/auth.js", "/guard.js", "/calendar.js", "/profile.js",
-  "/manifest.json", "/icon-192.png", "/icon-512.png", "/icon-180.png",
-];
+// Taskify service worker — intentionally minimal.
+// It caches ONLY the app icons (so the app stays installable) and lets all
+// code (HTML/CSS/JS) and API calls always come straight from the network.
+// This guarantees you never get a stale/broken cached version after a deploy.
+const CACHE = "taskify-v3";
+const ICONS = ["/icon-192.png", "/icon-512.png", "/icon-180.png"];
 
 self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ICONS)).then(() => self.skipWaiting()));
 });
 
 self.addEventListener("activate", (e) => {
@@ -21,23 +18,9 @@ self.addEventListener("activate", (e) => {
 });
 
 self.addEventListener("fetch", (e) => {
-  const req = e.request;
-  if (req.method !== "GET") return;
-  const url = new URL(req.url);
-  if (url.origin !== location.origin) return;
-
-  // Only cache-serve fingerprint-free static assets. Everything else
-  // (HTML pages, navigations, /api, /auth) goes straight to the network.
-  if (/\.(css|js|png|svg|json|woff2?)$/i.test(url.pathname)) {
-    e.respondWith(
-      caches.match(req).then((cached) =>
-        cached ||
-        fetch(req).then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
-          return res;
-        })
-      )
-    );
+  const url = new URL(e.request.url);
+  // Only the icons are served from cache; everything else is live network.
+  if (e.request.method === "GET" && /\/icon-\d+\.png$/.test(url.pathname)) {
+    e.respondWith(caches.match(e.request).then((c) => c || fetch(e.request)));
   }
 });
