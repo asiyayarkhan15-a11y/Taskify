@@ -1,14 +1,12 @@
 {
-  "version": 2,
-  "regions": ["bom1"],
-  "builds": [
-    {
-      "src": "server.js",
-      "use": "@vercel/node",
-      "config": { "includeFiles": ["public/**"], "maxDuration": 30 }
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 30,
+      "includeFiles": "public/**"
     }
+  },
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/api/index" }
   ],
-  "routes": [
-    { "src": "/(.*)", "dest": "/server.js" }
-  ]
+  "regions": ["bom1"]
 }
